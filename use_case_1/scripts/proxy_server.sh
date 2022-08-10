@@ -7,7 +7,7 @@ sudo apt-get update
 wget -qO - https://packages.diladele.com/diladele_pub.asc | sudo apt-key add -
 
 # Add Squid 5 repo
-echo "deb focal main" | sudo tee -a /etc/apt/sources.list.d/squid55.diladele.com.list
+echo "deb https://squid55.diladele.com/ubuntu/ focal main" | sudo tee -a /etc/apt/sources.list.d/squid55.diladele.com.list
 
 # Install Squid proxy and its dependencies
 sudo apt-get update && sudo apt-get install -y \

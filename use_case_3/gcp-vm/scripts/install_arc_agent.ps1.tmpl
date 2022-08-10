@@ -8,12 +8,6 @@ $env:tenantId="${tenantId}"
 $env:resourceGroup="${resourceGroup}"
 $env:location="${location}"
 
-# If a proxy server is needed, execute these commands with the proxy URL and port.
-[Environment]::SetEnvironmentVariable("HTTPS_PROXY", "http://34.159.152.93:3128", "Machine")
-$env:HTTPS_PROXY = [System.Environment]::GetEnvironmentVariable("HTTPS_PROXY", "Machine")
-# For the changes to take effect, the agent services need to be restarted after the proxy environment variable is set.
-Restart-Service -Name himds, ExtensionService, GCArcService
-
 # Download the package
 function download() {$ProgressPreference="SilentlyContinue"; Invoke-WebRequest -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile AzureConnectedMachineAgent.msi}
 download
@@ -32,4 +26,3 @@ $arc_name=hostname
  --subscription-id $env:subscriptionId `
  --resource-name $arc_name `
  --correlation-id "d009f5dd-dba8-4ac7-bac9-b54ef3a6671a"
-

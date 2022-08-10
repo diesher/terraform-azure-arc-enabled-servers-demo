@@ -80,50 +80,50 @@ resource "azurerm_local_network_gateway" "local_gcp" {
     ]
 }
 
-#----------------------------------------
-# Create local gateway
-#----------------------------------------
-
-resource "azurerm_subnet" "fw_subnet" {
-  name                 = "AzureFirewallSubnet"
-  resource_group_name  = azurerm_resource_group.azure_vpn_rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.0.128/26"]
-}
-
-resource "azurerm_public_ip" "fw_pip" {
-  name                = "pip-fw"
-  location            = azurerm_resource_group.azure_vpn_rg.location
-  resource_group_name = azurerm_resource_group.azure_vpn_rg.name
-  allocation_method   = "Static"
-  sku                 = "Standard"
-}
-
-resource "azurerm_firewall_policy" "fwpolicy" {
-  name                = "fwpolicy"
-  resource_group_name = azurerm_resource_group.azure_vpn_rg.name
-  location            = azurerm_resource_group.azure_vpn_rg.location
-  sku                 = "Premium"
-
-  dns {
-      proxy_enabled = "true"
-
-  }
-}
-
-resource "azurerm_firewall" "firewall" {
-  name                = "firewall"
-  location            = azurerm_resource_group.azure_vpn_rg.location
-  resource_group_name = azurerm_resource_group.azure_vpn_rg.name
-  sku_name            = "AZFW_VNet"
-  sku_tier            = "Premium"
-
-  ip_configuration {
-    name                 = "configuration"
-    subnet_id            = azurerm_subnet.fw_subnet.id
-    public_ip_address_id = azurerm_public_ip.fw_pip.id
-  }
-}
+##----------------------------------------
+## Create firewall
+##----------------------------------------
+#
+#resource "azurerm_subnet" "fw_subnet" {
+#  name                 = "AzureFirewallSubnet"
+#  resource_group_name  = azurerm_resource_group.azure_vpn_rg.name
+#  virtual_network_name = azurerm_virtual_network.vnet.name
+#  address_prefixes     = ["10.0.0.128/26"]
+#}
+#
+#resource "azurerm_public_ip" "fw_pip" {
+#  name                = "pip-fw"
+#  location            = azurerm_resource_group.azure_vpn_rg.location
+#  resource_group_name = azurerm_resource_group.azure_vpn_rg.name
+#  allocation_method   = "Static"
+#  sku                 = "Standard"
+#}
+#
+#resource "azurerm_firewall_policy" "fwpolicy" {
+#  name                = "fwpolicy"
+#  resource_group_name = azurerm_resource_group.azure_vpn_rg.name
+#  location            = azurerm_resource_group.azure_vpn_rg.location
+#  sku                 = "Premium"
+#
+#  dns {
+#      proxy_enabled = "true"
+#
+#  }
+#}
+#
+#resource "azurerm_firewall" "firewall" {
+#  name                = "firewall"
+#  location            = azurerm_resource_group.azure_vpn_rg.location
+#  resource_group_name = azurerm_resource_group.azure_vpn_rg.name
+#  sku_name            = "AZFW_VNet"
+#  sku_tier            = "Premium"
+#
+#  ip_configuration {
+#    name                 = "configuration"
+#    subnet_id            = azurerm_subnet.fw_subnet.id
+#    public_ip_address_id = azurerm_public_ip.fw_pip.id
+#  }
+#}
 
 #----------------------------------------
 # Create VPN Connection
